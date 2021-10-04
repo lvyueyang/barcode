@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>批量生成条形码</title>
+  <script src="./barcode.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 10px;
+      margin: 0;
+    }
+
+    #editor {
+      width: 100%;
+      display: block;
+      margin-bottom: 10px;
+      padding: 10px;
+      max-height: 90vh;
+      min-height: 50vh;
+      outline: none;
+    }
+
+    #submit {
+      display: block;
+      width: 100%;
+      height: 40px;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+
+    #wrap img {
+      display: block;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <textarea id="editor"></textarea>
+  <button id="submit">生成</button>
+  <div id="wrap"></div>
+</body>
+<script>
+  function createCode(wrap, value) {
+    const svg = document.createElement('img');
+    wrap.appendChild(svg);
+    JsBarcode(svg, value);
+  }
+  const wrap = document.querySelector('#wrap')
+  document.querySelector('#submit').addEventListener('click', e => {
+    const value = document.querySelector('#editor').value;
+    const values = value.split('\n').map(v => v.trim());
+    values.forEach(val => {
+      if (val) {
+        createCode(wrap, val)
+      }
+    });
+  })
+</script>
+
+</html>
