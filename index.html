@@ -27,11 +27,14 @@
       outline: none;
     }
 
-    #submit {
+    .btn-group {
+      display: flex;
+    }
+
+    button {
       display: block;
       width: 100%;
       height: 40px;
-      margin: 0;
       margin-bottom: 10px;
     }
 
@@ -45,14 +48,24 @@
 
 <body>
   <textarea id="editor"></textarea>
-  <button id="submit">生成</button>
+  <div class="btn-group">
+    <button id="submit">生成</button>
+    <button id="download">下载全部</button>
+  </div>
   <div id="wrap"></div>
 </body>
 <script>
   function createCode(wrap, value) {
-    const svg = document.createElement('img');
-    wrap.appendChild(svg);
-    JsBarcode(svg, value);
+    const img = document.createElement('img');
+    img.alt = value;
+    wrap.appendChild(img);
+    JsBarcode(img, value);
+  }
+  function downloadImg(val, name) {
+    const a = document.createElement('a');
+    a.href = val;
+    a.download = name;
+    a.click();
   }
   const wrap = document.querySelector('#wrap')
   document.querySelector('#submit').addEventListener('click', e => {
@@ -63,6 +76,11 @@
         createCode(wrap, val)
       }
     });
+  })
+  document.querySelector('#download').addEventListener('click', e => {
+    document.querySelectorAll('#wrap > img').forEach(item => {
+      downloadImg(item.src, item.alt)
+    })
   })
 </script>
 
